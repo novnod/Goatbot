@@ -57,7 +57,7 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater(os.environ.get(TOKEN))
+    updater = Updater(os.environ['TOKEN'])
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler('start', start))
