@@ -1,1 +1,1 @@
-web: python goatbot.py
+bot: python goatbot.py
