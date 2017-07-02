@@ -1,1 +1,1 @@
-worker: python goatbot.py
+web: python goatbot.py
