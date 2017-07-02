@@ -22,3 +22,8 @@ words = ['fifth','reaction', 'furniture', 'experience', 'ground',
 def random_word(array):
     word = random.choice(array)
     return word
+
+def scramble_words(word):
+    word = list(word.lower())
+    random.shuffle(word)
+    return ''.join(word)
