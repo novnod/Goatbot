@@ -1,6 +1,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import helpers
 import logging
+import os
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelnames)s - %(message)s')
@@ -56,7 +57,7 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater('232179235:AAG-ySLhZaTLdBsw8T7h7yXdm1RFKhQlu_A')
+    updater = Updater(os.environ.get(TOKEN))
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler('start', start))
