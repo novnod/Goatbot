@@ -61,7 +61,7 @@ def taboo(bot, update):
 
 def scramble(bot, update):
     global scramble_word
-    scramble_word = helpers.scramble_words(helps.words)
+    scramble_word = helpers.scramble_words(helpers.words)
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id, text=f'Unscramble: {scramble_word}')
 
