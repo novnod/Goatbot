@@ -2,6 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import helpers
 import logging
 import os
+import requests
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelnames)s - %(message)s')
@@ -67,6 +68,14 @@ def scramble(bot, update):
     bot.sendMessage(chat_id, text=f'Unscramble: {assorted_word}')
 
 
+def trump_trump(bot, update):
+    chat_id = update.message.chat_id
+
+    r = requests.get("https://api.whatdoestrumpthink.com/api/v1/quotes/random")
+    json_data = r.json()
+    bot.sendMessage(chat_id, text=f"Our president once said: {json_data['message']}")
+
+
 
 def error(bot, update, error):
     logger.warn(f'Update {update} caused error {error}')
@@ -81,6 +90,7 @@ def main():
     dp.add_handler(CommandHandler('word', word))
     dp.add_handler(CommandHandler('taboo', taboo))
     dp.add_handler(CommandHandler('scramble', scramble))
+    dp.add_handler(CommandHandler('trumptrump', trump_trump))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
     updater.start_polling()
