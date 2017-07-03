@@ -1,6 +1,6 @@
 import random
 
-words = set(['fifth','reaction', 'furniture', 'experience', 'ground',
+words = ['fifth','reaction', 'furniture', 'experience', 'ground',
         'fang', 'sidewalk', 'discussion', 'nation', 'rhythm',
         'balls', 'stamp', 'popcorn', 'sign', 'paint', 'baseball',
         'brush', 'governor', 'income', 'fog', 'drain', 'kitten',
@@ -22,7 +22,7 @@ words = set(['fifth','reaction', 'furniture', 'experience', 'ground',
         'hope', 'death', 'random', 'assert', 'authority', 'reliance',
         'presidents', 'Trump', 'spook', 'snapchat', 'feet', 'fetish',
         'david', 'selfie', 'stickers', 'pizza', 'lemons', 'savage', 'dollars',
-        'pride', 'period', 'Quora', 'scramble'])
+        'pride', 'period', 'Quora', 'scramble']
 
 def random_word(array):
     word = random.choice(array)
