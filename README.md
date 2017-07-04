@@ -1,2 +1,2 @@
 # Goatbot
-Just learning by creating a Telegram chat bot with Python.
+Just a simply telegrambot using Python.
