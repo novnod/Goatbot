@@ -19,7 +19,15 @@ def start(bot, update):
 
 
 def help(bot, update):
-    update.message.reply_text('No')
+    chat_id = update.message.chat_id
+    bot.sendMessage(chat_id,
+    text='''
+    Commands that are available (so far):
+        1 - word
+        2 - taboo
+        3 - scramble
+        4 - trumptrump
+    ''')
 
 
 def word(bot, update):
