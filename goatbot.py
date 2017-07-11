@@ -96,7 +96,7 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater('321867389:AAEV2FMHAmcPNTaor6PlVls7l6zWPw8c_gg')
+    updater = Updater(os.environ['TOKEN'])
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler('start', start))
