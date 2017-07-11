@@ -10,9 +10,9 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 # Global shit
-chosen_word = ''
-taboo_word = ''
-scramble_word = ''
+word_dict = {}
+taboo_dict = {}
+scramble_dict = {}
 
 def start(bot, update):
     update.message.reply_text('Fuck you!')
@@ -31,47 +31,50 @@ def help(bot, update):
 
 
 def word(bot, update):
-    global chosen_word
-    chosen_word = helpers.random_word(helpers.words)
+    global word_dict
+    word_dict[update.message.chat_id] = helpers.random_word(helpers.words)
     chat_id = update.message.chat_id
-    bot.sendMessage(chat_id, text=f'Type: {chosen_word}')
+    bot.sendMessage(chat_id, text=f'Type: {word_dict[update.message.chat_id]}')
 
 
 def is_right(bot, update):
-    global chosen_word
-    global taboo_word
-    global scramble_word
-    if update.message.text.lower() == chosen_word.lower():
-        chat_id = update.message.chat_id
-        user = update.message.from_user
-        bot.sendMessage(chat_id, text=f'{user.first_name} got it first bitches!')
-        chosen_word = ''
+    global word_dict
+    global taboo_dict
+    global scramble_dict
+    if update.message.chat_id in word_dict:
+        if update.message.text.lower() == word_dict[update.message.chat_id].lower():
+            chat_id = update.message.chat_id
+            user = update.message.from_user
+            bot.sendMessage(chat_id, text=f'{user.first_name} got it first bitches!')
+            del word_dict[update.message.chat_id]
     
-    if update.message.text.lower() == taboo_word.lower():
-        chat_id = update.message.chat_id
-        user = update.message.from_user
-        bot.sendMessage(chat_id, text=f'{user.first_name} got that bitch right!')
-        taboo_word = ''
+    if update.message.chat_id in taboo_dict:
+        if update.message.text.lower() == taboo_dict[update.message.chat_id].lower():
+            chat_id = update.message.chat_id
+            user = update.message.from_user
+            bot.sendMessage(chat_id, text=f'{user.first_name} got that bitch right!')
+            del taboo_dict[update.message.chat_id]
     
-    if update.message.text.lower() == scramble_word.lower():
-        chat_id = update.message.chat_id
-        user = update.message.from_user
-        bot.sendMessage(chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
-        scramble_word = ''
+    if update.message.chat_id in scramble_dict:
+        if update.message.text.lower() == scramble_dict[update.message.chat_id].lower():
+            chat_id = update.message.chat_id
+            user = update.message.from_user
+            bot.sendMessage(chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
+            del scramble_dict[update.message.chat_id]
 
 def taboo(bot, update):
-    global taboo_word
-    taboo_word = helpers.random_word(helpers.words)
+    global taboo_dict
+    taboo_dict[update.message.chat_id] = helpers.random_word(helpers.words)
     chat_id = update.message.chat_id
     user_id = update.message.from_user.id
     bot.sendMessage(chat_id, text='Word has been sent')
-    bot.sendMessage(user_id, text=f'Your word is {taboo_word}')
+    bot.sendMessage(user_id, text=f'Your word is {taboo_dict[update.message.chat_id]}')
 
 
 def scramble(bot, update):
-    global scramble_word
-    scramble_word = helpers.random_word(helpers.words)
-    assorted_word = helpers.scramble_words(scramble_word)
+    global scramble_dict
+    scramble_dict[update.message.chat_id] = helpers.random_word(helpers.words)
+    assorted_word = helpers.scramble_words(scramble_dict[update.message.chat_id])
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id, text=f'Unscramble: {assorted_word}')
 
@@ -90,7 +93,8 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater(os.environ['TOKEN'])
+    # updater = Updater(os.environ['TOKEN'])
+    updater = Updater('321867389:AAHAAqfgadfrhSeTfzB2z6BDGPUP437jYp8')
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler('start', start))

@@ -1,3 +1,5 @@
 {
-    "python.linting.pylintEnabled": false
+    "python.linting.pylintArgs": [
+        "--errosr-only"
+    ]
 }
