@@ -1,10 +1,11 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.error import Unauthorized
 import helpers
 import logging
 import os
 import requests
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 logger = logging.getLogger(__name__)
@@ -66,10 +67,12 @@ def taboo(bot, update):
     global taboo_dict
     taboo_dict[update.message.chat_id] = helpers.random_word(helpers.words)
     chat_id = update.message.chat_id
-    user_id = update.message.from_user.id
-    bot.sendMessage(chat_id, text='Word has been sent')
-    bot.sendMessage(user_id, text=f'Your word is {taboo_dict[update.message.chat_id]}')
-
+    user = update.message.from_user
+    try:
+        bot.sendMessage(user.id, text=f'Your word is {taboo_dict[update.message.chat_id]}')
+        bot.sendMessage(chat_id, text='Word has been sent')
+    except Unauthorized:
+        bot.sendMessage(chat_id, text=f'Hey {user.first_name}. I can not pm you unless you pm first.')
 
 def scramble(bot, update):
     global scramble_dict
@@ -93,7 +96,7 @@ def error(bot, update, error):
 
 
 def main():
-    updater = Updater(os.environ['TOKEN'])
+    updater = Updater('321867389:AAEV2FMHAmcPNTaor6PlVls7l6zWPw8c_gg')
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler('start', start))
