@@ -1,4 +1,4 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
 from telegram.error import Unauthorized
 import helpers
 import logging
@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 word_dict = {}
 taboo_dict = {}
 scramble_dict = {}
+groups = [-1001064437849, -242949424]
 
 def start(bot, update):
     update.message.reply_text('Fuck you!')
@@ -90,6 +91,24 @@ def trump_trump(bot, update):
     bot.sendMessage(chat_id, text=f"Our president once said: {json_data['message']}")
 
 
+def echo(bot, update):
+    global groups
+    chat_id = update.message.chat_id
+
+    if update.message.chat_id == 224662703:
+        text = update.message.text[6:]
+
+        [bot.sendMessage(chat, text=f'Forwarded from @goatey to all groups: {text}') for chat in groups]
+    else:
+        print('You are not my creator bitch.')
+    
+
+def get_id(bot, update):
+    chat_id = update.message.chat_id
+    
+    bot.sendMessage(chat_id, text=f"The Chat id is: {chat_id}")
+
+
 
 def error(bot, update, error):
     logger.warn(f'Update {update} caused error {error}')
@@ -105,6 +124,8 @@ def main():
     dp.add_handler(CommandHandler('taboo', taboo))
     dp.add_handler(CommandHandler('scramble', scramble))
     dp.add_handler(CommandHandler('trumptrump', trump_trump))
+    dp.add_handler(CommandHandler('echo', echo))
+    dp.add_handler(CommandHandler('getid', get_id))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
     updater.start_polling()
