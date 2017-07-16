@@ -100,7 +100,7 @@ def echo(bot, update):
 
         [bot.sendMessage(chat, text=f'{text}') for chat in groups]
     else:
-        print('You are not my creator bitch.')
+        bot.sendMessage(chat_id, text='Nigga you not my creator. Fuck off bitch.')
     
 
 def get_id(bot, update):
