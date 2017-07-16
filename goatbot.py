@@ -95,7 +95,7 @@ def echo(bot, update):
     global groups
     chat_id = update.message.chat_id
 
-    if update.message.chat_id == 224662703:
+    if update.message.from_user.id == 224662703:
         text = update.message.text[6:]
 
         [bot.sendMessage(chat, text=f'{text}') for chat in groups]
