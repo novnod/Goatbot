@@ -98,7 +98,7 @@ def echo(bot, update):
     if update.message.chat_id == 224662703:
         text = update.message.text[6:]
 
-        [bot.sendMessage(chat, text=f'Forwarded from @goatey to all groups: {text}') for chat in groups]
+        [bot.sendMessage(chat, text=f'{text}') for chat in groups]
     else:
         print('You are not my creator bitch.')
     
