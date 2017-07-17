@@ -1,4 +1,4 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, RegexHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import Unauthorized
 import helpers
 import logging
@@ -16,19 +16,21 @@ taboo_dict = {}
 scramble_dict = {}
 groups = [-1001064437849, -242949424]
 
+
 def start(bot, update):
-    update.message.reply_text('Fuck you!')
+    chat_id = update.message.chat_id
+    bot.sendMessage(chat_id, text='Fuck you!')
 
 
 def help(bot, update):
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id,
-    text='''
+                    text='''
     Commands that are available (so far):
-        1 - word
-        2 - taboo
-        3 - scramble
-        4 - trumptrump
+    1 - word
+    2 - taboo
+    3 - scramble
+    4 - trumptrump
     ''')
 
 
@@ -47,22 +49,26 @@ def is_right(bot, update):
         if update.message.text.lower() == word_dict[update.message.chat_id].lower():
             chat_id = update.message.chat_id
             user = update.message.from_user
-            bot.sendMessage(chat_id, text=f'{user.first_name} got it first bitches!')
+            bot.sendMessage(
+                chat_id, text=f'{user.first_name} got it first bitches!')
             del word_dict[update.message.chat_id]
-    
+
     if update.message.chat_id in taboo_dict:
         if update.message.text.lower() == taboo_dict[update.message.chat_id].lower():
             chat_id = update.message.chat_id
             user = update.message.from_user
-            bot.sendMessage(chat_id, text=f'{user.first_name} got that bitch right!')
+            bot.sendMessage(
+                chat_id, text=f'{user.first_name} got that bitch right!')
             del taboo_dict[update.message.chat_id]
-    
+
     if update.message.chat_id in scramble_dict:
         if update.message.text.lower() == scramble_dict[update.message.chat_id].lower():
             chat_id = update.message.chat_id
             user = update.message.from_user
-            bot.sendMessage(chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
+            bot.sendMessage(
+                chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
             del scramble_dict[update.message.chat_id]
+
 
 def taboo(bot, update):
     global taboo_dict
@@ -70,15 +76,19 @@ def taboo(bot, update):
     chat_id = update.message.chat_id
     user = update.message.from_user
     try:
-        bot.sendMessage(user.id, text=f'Your word is {taboo_dict[update.message.chat_id]}')
+        bot.sendMessage(
+            user.id, text=f'Your word is {taboo_dict[update.message.chat_id]}')
         bot.sendMessage(chat_id, text='Word has been sent')
     except Unauthorized:
-        bot.sendMessage(chat_id, text=f'Hey {user.first_name}. I can not pm you unless you pm first.')
+        bot.sendMessage(
+            chat_id, text=f'Hey {user.first_name}. I can not pm you unless you pm first.')
+
 
 def scramble(bot, update):
     global scramble_dict
     scramble_dict[update.message.chat_id] = helpers.random_word(helpers.words)
-    assorted_word = helpers.scramble_words(scramble_dict[update.message.chat_id])
+    assorted_word = helpers.scramble_words(
+        scramble_dict[update.message.chat_id])
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id, text=f'Unscramble: {assorted_word}')
 
@@ -88,7 +98,8 @@ def trump_trump(bot, update):
 
     r = requests.get("https://api.whatdoestrumpthink.com/api/v1/quotes/random")
     json_data = r.json()
-    bot.sendMessage(chat_id, text=f"Our president once said: {json_data['message']}")
+    bot.sendMessage(
+        chat_id, text=f"Our president once said: {json_data['message']}")
 
 
 def echo(bot, update):
@@ -100,14 +111,13 @@ def echo(bot, update):
 
         [bot.sendMessage(chat, text=f'{text}') for chat in groups]
     else:
-        bot.sendMessage(chat_id, text='Nigga you not my creator. Fuck off bitch.')
-    
+        bot.sendMessage(
+            chat_id, text='Nigga you not my creator. Fuck off bitch.')
+
 
 def get_id(bot, update):
     chat_id = update.message.chat_id
-    
     bot.sendMessage(chat_id, text=f"The Chat id is: {chat_id}")
-
 
 
 def error(bot, update, error):
@@ -130,6 +140,7 @@ def main():
     dp.add_error_handler(error)
     updater.start_polling()
     updater.idle()
+
 
 if __name__ == '__main__':
     main()

@@ -106,6 +106,10 @@ ENV/
 !.vscode/launch.json
 !.vscode/extensions.json
 
+### PYCHARM ###
+.idea
+.idea/*
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
