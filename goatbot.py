@@ -31,6 +31,7 @@ def help(bot, update):
     2 - taboo
     3 - scramble
     4 - trumptrump
+    5 - urban
     ''')
 
 
