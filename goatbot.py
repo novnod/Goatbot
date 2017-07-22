@@ -102,6 +102,22 @@ def trump_trump(bot, update):
         chat_id, text=f"Our president once said: {json_data['message']}")
 
 
+def urban(bot, update):
+    chat_id = update.message.chat_id
+    text = update.message.text[6:]
+
+    try:
+        r = requests.get(f'http://api.urbandictionary.com/v0/define?term={text}')
+        json_data = r.json()
+        define = json_data['list'][0]['definition']
+        example = json_data['list'][0]['example']
+
+        bot.sendMessage(chat_id, text=f'{text}\n{define}\n\n{example}')
+
+    except IndexError:
+        bot.sendMessage(chat_id, text='Nigga. Stop fucking playing.')
+
+
 def echo(bot, update):
     global groups
     chat_id = update.message.chat_id
@@ -136,6 +152,7 @@ def main():
     dp.add_handler(CommandHandler('trumptrump', trump_trump))
     dp.add_handler(CommandHandler('echo', echo))
     dp.add_handler(CommandHandler('getid', get_id))
+    dp.add_handler(CommandHandler('urban', urban))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
     updater.start_polling()
