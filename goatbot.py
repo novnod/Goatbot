@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 word_dict = {}
 taboo_dict = {}
 scramble_dict = {}
+lastb_dict = {}
+lastk_dict= {}
 groups = [-1001064437849, -242949424]
 
 
@@ -46,6 +48,8 @@ def is_right(bot, update):
     global word_dict
     global taboo_dict
     global scramble_dict
+    global lastb_dict
+    global lastk_dict
     if update.message.chat_id in word_dict:
         if update.message.text.lower() == word_dict[update.message.chat_id].lower():
             chat_id = update.message.chat_id
@@ -69,6 +73,20 @@ def is_right(bot, update):
             bot.sendMessage(
                 chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
             del scramble_dict[update.message.chat_id]
+
+    if update.message.chat_id in lastb_dict:
+        if update.message.from_user.id == lastb_dict[update.message.chat_id]:
+            chat_id = update.message.chat_id
+            bot.kickChatMember(chat_id, lastb_dict[update.message.chat_id])
+            del lastb_dict[update.message.chat_id]
+
+    if update.message.chat_id in lastk_dict:
+        if update.message.from_user.id == lastk_dict[update.message.chat_id]:
+            chat_id = update.message.chat_id
+            user_id = update.message.from_user.id
+            bot.kickChatMember(chat_id, lastk_dict[update.message.chat_id])
+            bot.unban_chat_member(chat_id, user_id)
+            del lastk_dict[update.message.chat_id]
 
 
 def taboo(bot, update):
@@ -132,6 +150,35 @@ def echo(bot, update):
             chat_id, text='Nigga you not my creator. Fuck off bitch.')
 
 
+def lastb(bot, update):
+    global lastb_dict
+    # global admin
+    chat_id = update.message.chat_id
+
+    user = update.message.reply_to_message.from_user
+    user_id = user.id
+    getadmins = bot.getChatAdministrators(chat_id)
+    if user_id in [admin.user.id for admin in getadmins]:
+        bot.sendMessage(chat_id, text='No')
+    else:
+        lastb_dict[chat_id] = user_id
+        bot.sendMessage(chat_id, text=f'About to catch this ban. Any last words {user.first_name}')
+
+
+def lastk(bot, update):
+    global lastk_dict
+    chat_id = update.message.chat_id
+
+    user = update.message.reply_to_message.from_user
+    user_id = user.id
+    getadmins = bot.getChatAdministrators(chat_id)
+    if user_id in [admin.user.id for admin in getadmins]:
+        bot.sendMessage(chat_id, text='No')
+    else:
+        lastk_dict[chat_id] = user_id
+        bot.sendMessage(chat_id, text=f'Say something I fucking dare you')
+
+
 def get_id(bot, update):
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id, text=f"The Chat id is: {chat_id}")
@@ -154,6 +201,8 @@ def main():
     dp.add_handler(CommandHandler('echo', echo))
     dp.add_handler(CommandHandler('getid', get_id))
     dp.add_handler(CommandHandler('urban', urban))
+    dp.add_handler(CommandHandler('lastb', lastb))
+    dp.add_handler(CommandHandler('lastk', lastk))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
     updater.start_polling()
