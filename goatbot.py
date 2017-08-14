@@ -159,10 +159,11 @@ def lastb(bot, update):
     user_id = user.id
     getadmins = bot.getChatAdministrators(chat_id)
     if user_id in [admin.user.id for admin in getadmins]:
-        bot.sendMessage(chat_id, text='No')
-    else:
-        lastb_dict[chat_id] = user_id
-        bot.sendMessage(chat_id, text=f'About to catch this ban. Any last words {user.first_name}')
+        if user_id in [admin.user.id for admin in getadmins]:
+            bot.sendMessage(chat_id, text='No')
+        else:
+            lastb_dict[chat_id] = user_id
+            bot.sendMessage(chat_id, text=f'About to catch this ban. Any last words {user.first_name}')
 
 
 def lastk(bot, update):
@@ -172,11 +173,13 @@ def lastk(bot, update):
     user = update.message.reply_to_message.from_user
     user_id = user.id
     getadmins = bot.getChatAdministrators(chat_id)
+    
     if user_id in [admin.user.id for admin in getadmins]:
-        bot.sendMessage(chat_id, text='No')
-    else:
-        lastk_dict[chat_id] = user_id
-        bot.sendMessage(chat_id, text=f'Say something I fucking dare you')
+        if user_id in [admin.user.id for admin in getadmins]:
+            bot.sendMessage(chat_id, text='No')
+        else:
+            lastk_dict[chat_id] = user_id
+            bot.sendMessage(chat_id, text=f'Say something I fucking dare you')
 
 
 def get_id(bot, update):
