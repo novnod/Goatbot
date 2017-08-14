@@ -155,10 +155,11 @@ def lastb(bot, update):
     # global admin
     chat_id = update.message.chat_id
 
+    p = update.message.from_user.id
     user = update.message.reply_to_message.from_user
     user_id = user.id
     getadmins = bot.getChatAdministrators(chat_id)
-    if user_id in [admin.user.id for admin in getadmins]:
+    if p in [admin.user.id for admin in getadmins]:
         if user_id in [admin.user.id for admin in getadmins]:
             bot.sendMessage(chat_id, text='No')
         else:
@@ -170,11 +171,12 @@ def lastk(bot, update):
     global lastk_dict
     chat_id = update.message.chat_id
 
+    p = update.message.from_user.id
     user = update.message.reply_to_message.from_user
     user_id = user.id
     getadmins = bot.getChatAdministrators(chat_id)
     
-    if user_id in [admin.user.id for admin in getadmins]:
+    if p in [admin.user.id for admin in getadmins]:
         if user_id in [admin.user.id for admin in getadmins]:
             bot.sendMessage(chat_id, text='No')
         else:
