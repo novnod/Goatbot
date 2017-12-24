@@ -188,6 +188,12 @@ def get_id(bot, update):
     chat_id = update.message.chat_id
     bot.sendMessage(chat_id, text=f"The Chat id is: {chat_id}")
 
+def random_god(bot, update):
+    chat_id = update.message.chat_id
+    user = update.message.from_user
+    random_god = helpers.random_word(helpers.gods_list)
+    bot.sendMessage(chat_id, text=f"{user.first_name}, your god to play is {random_god}")
+
 
 def error(bot, update, error):
     logger.warn(f'Update {update} caused error {error}')
@@ -208,6 +214,7 @@ def main():
     dp.add_handler(CommandHandler('urban', urban))
     dp.add_handler(CommandHandler('lastb', lastb))
     dp.add_handler(CommandHandler('lastk', lastk))
+    dp.add_handler(CommandHandler('randomgod', random_god))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
     updater.start_polling()
