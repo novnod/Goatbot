@@ -36,7 +36,6 @@ def help(bot, update):
     5 - urban
     ''')
 
-
 def word(bot, update):
     global word_dict
     word_dict[update.message.chat_id] = helpers.random_word(helpers.words)
