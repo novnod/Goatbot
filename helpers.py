@@ -59,7 +59,7 @@ words = ['fifth', 'reaction', 'furniture', 'experience', 'ground',
 
 gods_list = ["Agni", "Ah Muzen Cab", "Ah Puch", "Amaterasu", "Anhur", "Anubis", "Ao Kuang", "Aphrodite",
              "Apollo", "Arachne", "Ares", "Artemis", "Artio", "Athena", "Awlix", "Bacchus", "Bakasura",
-             "Bastet", "Bellona", "Cabrakan", "Camazots", "Cernunos", "Chaac", "Change'e", "Chiron",
+             "Bastet", "Bellona", "Cabrakan", "Camazots", "Cerberus", "Cernunos", "Chaac", "Change'e", "Chiron",
              "Chronos", "Cu Chulainn", "Cupid", "Da Ji", "Discordia", "Erlang Shen", "Fafnir", "Fenrir",
              "Freya", "Ganesha", "Geb", "Guan Yu", "Hachiman", "Hades", "He Bo", "Hel", "Hercules", "Hou Yi",
              "Hun Batz", "Isis", "Izanami", "Janus", "Jing Wei", "Kali", "Khepri", "Kukulkan", "Kumba", "Kuzenbo",
