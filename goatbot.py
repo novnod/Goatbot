@@ -1,5 +1,6 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram.error import Unauthorized
+from telegram.ext.dispatcher import run_async
 import helpers
 import logging
 import os
@@ -14,8 +15,6 @@ logger = logging.getLogger(__name__)
 word_dict = {}
 taboo_dict = {}
 scramble_dict = {}
-lastb_dict = {}
-lastk_dict= {}
 groups = [-1001064437849, -242949424]
 
 
@@ -47,8 +46,6 @@ def is_right(bot, update):
     global word_dict
     global taboo_dict
     global scramble_dict
-    global lastb_dict
-    global lastk_dict
     if update.message.chat_id in word_dict:
         if update.message.text.lower() == word_dict[update.message.chat_id].lower():
             chat_id = update.message.chat_id
@@ -72,20 +69,6 @@ def is_right(bot, update):
             bot.sendMessage(
                 chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
             del scramble_dict[update.message.chat_id]
-
-    if update.message.chat_id in lastb_dict:
-        if update.message.from_user.id == lastb_dict[update.message.chat_id]:
-            chat_id = update.message.chat_id
-            bot.kickChatMember(chat_id, lastb_dict[update.message.chat_id])
-            del lastb_dict[update.message.chat_id]
-
-    if update.message.chat_id in lastk_dict:
-        if update.message.from_user.id == lastk_dict[update.message.chat_id]:
-            chat_id = update.message.chat_id
-            user_id = update.message.from_user.id
-            bot.kickChatMember(chat_id, lastk_dict[update.message.chat_id])
-            bot.unban_chat_member(chat_id, user_id)
-            del lastk_dict[update.message.chat_id]
 
 
 def taboo(bot, update):
@@ -111,6 +94,7 @@ def scramble(bot, update):
     bot.sendMessage(chat_id, text=f'Unscramble: {assorted_word}')
 
 
+@run_async
 def trump_trump(bot, update):
     chat_id = update.message.chat_id
 
@@ -120,6 +104,7 @@ def trump_trump(bot, update):
         chat_id, text=f"Our president once said: {json_data['message']}")
 
 
+@run_async
 def urban(bot, update):
     chat_id = update.message.chat_id
     text = update.message.text[6:]
@@ -136,6 +121,7 @@ def urban(bot, update):
         bot.sendMessage(chat_id, text='Nigga. Stop fucking playing.')
 
 
+@run_async
 def echo(bot, update):
     global groups
     chat_id = update.message.chat_id
@@ -147,40 +133,6 @@ def echo(bot, update):
     else:
         bot.sendMessage(
             chat_id, text='Nigga you not my creator. Fuck off bitch.')
-
-
-def lastb(bot, update):
-    global lastb_dict
-    # global admin
-    chat_id = update.message.chat_id
-
-    p = update.message.from_user.id
-    user = update.message.reply_to_message.from_user
-    user_id = user.id
-    getadmins = bot.getChatAdministrators(chat_id)
-    if p in [admin.user.id for admin in getadmins]:
-        if user_id in [admin.user.id for admin in getadmins]:
-            bot.sendMessage(chat_id, text='No')
-        else:
-            lastb_dict[chat_id] = user_id
-            bot.sendMessage(chat_id, text=f'About to catch this ban. Any last words {user.first_name}')
-
-
-def lastk(bot, update):
-    global lastk_dict
-    chat_id = update.message.chat_id
-
-    p = update.message.from_user.id
-    user = update.message.reply_to_message.from_user
-    user_id = user.id
-    getadmins = bot.getChatAdministrators(chat_id)
-    
-    if p in [admin.user.id for admin in getadmins]:
-        if user_id in [admin.user.id for admin in getadmins]:
-            bot.sendMessage(chat_id, text='No')
-        else:
-            lastk_dict[chat_id] = user_id
-            bot.sendMessage(chat_id, text=f'Say something I fucking dare you')
 
 
 def get_id(bot, update):
@@ -211,8 +163,6 @@ def main():
     dp.add_handler(CommandHandler('echo', echo))
     dp.add_handler(CommandHandler('getid', get_id))
     dp.add_handler(CommandHandler('urban', urban))
-    dp.add_handler(CommandHandler('lastb', lastb))
-    dp.add_handler(CommandHandler('lastk', lastk))
     dp.add_handler(CommandHandler('randomgod', random_god))
     dp.add_handler(MessageHandler(Filters.text, is_right))
     dp.add_error_handler(error)
