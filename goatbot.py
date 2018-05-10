@@ -20,7 +20,7 @@ groups = [-1001064437849, -242949424]
 
 def start(bot, update):
     chat_id = update.message.chat_id
-    bot.sendMessage(chat_id, text='Fuck you!')
+    bot.sendMessage(chat_id, text='No')
 
 
 def help(bot, update):
@@ -51,7 +51,7 @@ def is_right(bot, update):
             chat_id = update.message.chat_id
             user = update.message.from_user
             bot.sendMessage(
-                chat_id, text=f'{user.first_name} got it first bitches!')
+                chat_id, text=f'{user.first_name} got it first!')
             del word_dict[update.message.chat_id]
 
     if update.message.chat_id in taboo_dict:
@@ -59,7 +59,7 @@ def is_right(bot, update):
             chat_id = update.message.chat_id
             user = update.message.from_user
             bot.sendMessage(
-                chat_id, text=f'{user.first_name} got that bitch right!')
+                chat_id, text=f'{user.first_name} got it right!')
             del taboo_dict[update.message.chat_id]
 
     if update.message.chat_id in scramble_dict:
@@ -118,7 +118,7 @@ def urban(bot, update):
         bot.sendMessage(chat_id, text=f'{text}\n{define}\n\n{example}')
 
     except IndexError:
-        bot.sendMessage(chat_id, text='Nigga. Stop fucking playing.')
+        bot.sendMessage(chat_id, text='Stop playing around!')
 
 
 @run_async
@@ -132,7 +132,7 @@ def echo(bot, update):
         [bot.sendMessage(chat, text=f'{text}') for chat in groups]
     else:
         bot.sendMessage(
-            chat_id, text='Nigga you not my creator. Fuck off bitch.')
+            chat_id, text='You"re not my creator')
 
 
 def get_id(bot, update):
