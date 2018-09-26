@@ -70,7 +70,7 @@ def is_right(bot, update):
                 chat_id, text=f'{user.first_name} is pretty smart. You should learn from that individual.')
             del scramble_dict[update.message.chat_id]
 
-    if "saul" in update.message.text.lower() and "gay" in update.message.text.lower():
+    if "saul" in update.message.text.lower() and "gay" in update.message.text.lower() or "fag" in update.message.text.lower():
             chat_id = update.message.chat_id
             bot.sendMessage(chat_id, text="Damn right. Saul is gay af")
 
