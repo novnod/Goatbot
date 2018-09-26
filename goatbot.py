@@ -81,6 +81,10 @@ def is_right(bot, update):
     if "cris" in update.message.text.lower() and "steroids" in update.message.text.lower() or "gym" in update.message.text.lower():
             chat_id = update.message.chat_id
             bot.sendMessage(chat_id, text="Cris on steroids frfr")
+    
+    if "gay" in update.message.text.lower():
+            chat_id = update.message.chat_id
+            bot.sendMessage(chat_id, text="That's saul nickname frfr. Gay boi")
 
 
 def taboo(bot, update):
